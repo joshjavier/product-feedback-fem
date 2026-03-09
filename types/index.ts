@@ -8,6 +8,8 @@ export interface ProductRequest {
   comments?: Comment[];
 }
 
+export type Suggestion = Omit<ProductRequest, 'status' | 'comments'> & { comments: number };
+
 export interface Comment {
   id: number;
   content: string;

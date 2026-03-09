@@ -6,8 +6,8 @@ import { getCommentCount } from '@/utils';
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const category = searchParams.get('category') ?? 'all';
-  const sort = searchParams.get('sort') ?? 'upvotes';
+  const category = searchParams.get('category') || 'all';
+  const sort = searchParams.get('sort') || 'upvotes';
   const asc = searchParams.get('asc') !== null; // true if 'asc' is present regardless of the value
 
   // accept a comma-separated string of status values, e.g., 'exclude=suggestion,planned'

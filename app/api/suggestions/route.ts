@@ -1,13 +1,13 @@
 import { NextRequest } from 'next/server';
 
 import productRequests from '@/data/product-requests';
-import { ProductRequest } from '@/types';
+import { Suggestion } from '@/types';
 import { getCommentCount } from '@/utils';
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const category = searchParams.get('category') ?? 'all';
-  const sort = searchParams.get('sort') ?? 'upvotes';
+  const category = searchParams.get('category') || 'all';
+  const sort = searchParams.get('sort') || 'upvotes';
   const asc = searchParams.get('asc') !== null; // true if 'asc' is present regardless of its value
 
   let suggestions = productRequests
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
       // simplify comments from an array of comment objects to an integer of comment count
       suggestion.comments = getCommentCount(s.comments);
 
-      return suggestion as Omit<ProductRequest, 'status' | 'comments'> & { comments: number };
+      return suggestion as Suggestion;
     });
 
   if (category !== 'all') {
