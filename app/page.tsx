@@ -1,39 +1,29 @@
 import Link from 'next/link';
 
 import CategoryPicker from '@/components/category-picker';
-import { Suggestion } from '@/types';
+import SortPicker from '@/components/sort-picker';
+import { getCategories } from '@/lib/data/categories';
+import { getSuggestions } from '@/lib/data/suggestions';
+import { getFirstString } from '@/utils';
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function SuggestionsPage({ searchParams }: PageProps) {
-  const filterParams = Object.entries(await searchParams)
-    .map(([key, value]): [string, string | undefined] => {
-      // if value is an array, use the first string only
-      if (Array.isArray(value)) {
-        return [key, value[0]];
-      }
-      return [key, value];
-    })
-    .filter(([key, value]) => {
-      if (key === 'asc') {
-        return value !== undefined; // don't drop 'asc' if value is empty string
-      }
-      return value;
-    }) as [string, string][];
+  const { category, sort, asc } = await searchParams;
 
-  const data = await fetch(
-    `${process.env.NEXTAPP_URL}/api/suggestions?${new URLSearchParams(filterParams).toString()}`,
-    {
-      next: { revalidate: 60 },
-    },
-  );
-  const suggestions = (await data.json()) as Suggestion[];
+  const categories = await getCategories();
+  const suggestions = await getSuggestions({
+    category: getFirstString(category),
+    sort: getFirstString(sort),
+    asc: asc !== undefined, // default to 'desc' if 'asc' is not present
+  });
 
   return (
     <>
-      <CategoryPicker />
+      <CategoryPicker categories={categories} />
+      <SortPicker />
       <h1>Suggestions</h1>
       {suggestions.map((suggestion) => (
         <div key={suggestion.id}>
