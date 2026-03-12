@@ -24,6 +24,7 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
     <>
       <CategoryPicker categories={categories} />
       <SortPicker />
+      <Link href="/feedback/new">Add Feedback</Link>
       <h1>Suggestions</h1>
       {suggestions.map((suggestion) => (
         <div key={suggestion.id}>

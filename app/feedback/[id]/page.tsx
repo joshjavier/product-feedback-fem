@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -16,6 +17,7 @@ export default async function FeedbackPage({ params }: { params: Promise<{ id: s
   return (
     <>
       <h1>Feedback {id}</h1>
+      <Link href={`/feedback/${id}/edit`}>Edit Feedback</Link>
 
       <div>
         <p>{feedback.title}</p>
