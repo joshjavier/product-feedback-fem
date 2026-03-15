@@ -27,7 +27,10 @@ export default function ToggleButton() {
   const [open, setOpen] = useState(false);
 
   return (
-    <button className="flex size-10 items-center justify-center" onClick={() => setOpen((o) => !o)}>
+    <button
+      className="flex size-10 items-center justify-center md:hidden"
+      onClick={() => setOpen((o) => !o)}
+    >
       {open ? <CloseIcon label="Close menu" /> : <MenuIcon label="Open menu" />}
     </button>
   );

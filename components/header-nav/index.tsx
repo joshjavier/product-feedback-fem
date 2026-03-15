@@ -1,11 +1,18 @@
+import { getCategories } from '@/lib/data/categories';
+
+import CategoryPicker from '../category-picker';
 import TitleCard from './title-card';
 
-export default function HeaderNav() {
+export default async function HeaderNav() {
+  const categories = await getCategories();
+
   return (
-    <header>
-      <TitleCard />
-      <div>CategoryPicker</div>
-      <div>RoadmapOverview</div>
+    <header className="md:p-10 md:pt-14">
+      <div className="md:grid md:min-h-44.5 md:grid-cols-3 md:gap-2.5">
+        <TitleCard />
+        <CategoryPicker categories={categories} />
+        <div>RoadmapOverview</div>
+      </div>
     </header>
   );
 }
