@@ -50,7 +50,7 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
   }, []);
 
   return (
-    <div className="rounded-[10px] bg-white p-6 pr-4.5 pb-9">
+    <div className="rounded-[10px] bg-white p-6 pr-4.5 max-lg:min-h-44.5">
       <ul className="flex flex-wrap gap-3.5">
         {categories.map((category) => (
           <li key={category}>
