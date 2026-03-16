@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
+import { MouseEvent, useCallback, useEffect, useRef } from 'react';
 
 import CategoryButton from './category-button';
 
@@ -13,7 +13,7 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const ref = useRef<(category: string) => void | null>(null);
+  const ref = useRef<(category: string | null) => void | null>(null);
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -36,21 +36,16 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
     return currentCategory === lowercasedCategory;
   };
 
-  const handleClick = useCallback(
-    (category: string) => () => {
-      ref.current?.(category);
-    },
-    [],
-  );
+  const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    ref.current?.((event.target as HTMLButtonElement).getAttribute('data-category'));
+  }, []);
 
   useEffect(() => {
-    ref.current = (category: string) => {
-      const lowercasedCategory = category.toLowerCase();
+    ref.current = (category: string | null) => {
+      if (!category) return;
       const href =
-        pathname +
-        '?' +
-        createQueryString('category', lowercasedCategory === 'all' ? null : lowercasedCategory);
-      router.push(href);
+        pathname + '?' + createQueryString('category', category === 'all' ? null : category);
+      router.replace(href);
     };
   }, []);
 
@@ -59,11 +54,7 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
       <ul className="flex flex-wrap gap-3.5">
         {categories.map((category) => (
           <li key={category}>
-            <CategoryButton
-              category={category}
-              active={isActive(category)}
-              onClick={handleClick(category)}
-            />
+            <CategoryButton category={category} active={isActive(category)} onClick={handleClick} />
           </li>
         ))}
       </ul>

@@ -9,7 +9,12 @@ interface CategoryButtonProps extends ComponentPropsWithRef<'button'> {
 
 export default memo(function CategoryButton({ category, active, ...props }: CategoryButtonProps) {
   return (
-    <button type="button" aria-pressed={`${active}`} {...props}>
+    <button
+      type="button"
+      aria-pressed={`${active}`}
+      data-category={category.toLowerCase()}
+      {...props}
+    >
       {category}
     </button>
   );
