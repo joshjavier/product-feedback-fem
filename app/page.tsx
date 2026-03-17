@@ -19,20 +19,24 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
   });
 
   return (
-    <>
-      <HeaderNav />
-      <SortPicker />
-      <Link href="/feedback/new">Add Feedback</Link>
-      <h1>Suggestions</h1>
-      {suggestions.map((suggestion) => (
-        <div key={suggestion.id}>
-          <Link href={`/feedback/${suggestion.id}`}>{suggestion.title}</Link>
-          <div>{suggestion.description}</div>
-          <div>{suggestion.category}</div>
-          <div>{suggestion.upvotes}</div>
-          <div>{suggestion.comments}</div>
-        </div>
-      ))}
-    </>
+    <div className="lg:px-10 lg:pt-23.5 lg:pb-25">
+      <div className="mx-auto box-content flex max-w-277.5 flex-col lg:flex-row lg:gap-7.5">
+        <HeaderNav />
+        <main>
+          <SortPicker />
+          <Link href="/feedback/new">Add Feedback</Link>
+          <h1>Suggestions</h1>
+          {suggestions.map((suggestion) => (
+            <div key={suggestion.id}>
+              <Link href={`/feedback/${suggestion.id}`}>{suggestion.title}</Link>
+              <div>{suggestion.description}</div>
+              <div>{suggestion.category}</div>
+              <div>{suggestion.upvotes}</div>
+              <div>{suggestion.comments}</div>
+            </div>
+          ))}
+        </main>
+      </div>
+    </div>
   );
 }

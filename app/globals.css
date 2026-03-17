@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+:root {
+  --header-height: 72px;
+}
+
 @theme {
   --color-primary-500: #ad1fea;
   --color-primary-400: #c75af6;
