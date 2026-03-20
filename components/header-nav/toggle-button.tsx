@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ComponentPropsWithRef, memo } from 'react';
 
 import IconClose from '@/assets/shared/mobile/icon-close.svg';
 import IconHamburger from '@/assets/shared/mobile/icon-hamburger.svg';
@@ -23,15 +23,26 @@ function CloseIcon({ label }: { label: string }) {
   );
 }
 
-export default function ToggleButton() {
-  const [open, setOpen] = useState(false);
+interface ToggleButtonProps extends ComponentPropsWithRef<'button'> {
+  open: boolean;
+  handleToggle: () => void;
+}
 
+const ToggleButton = memo(function ToggleButton({
+  open,
+  handleToggle,
+  className,
+  ...props
+}: ToggleButtonProps) {
   return (
     <button
-      className="flex size-10 items-center justify-center md:hidden"
-      onClick={() => setOpen((o) => !o)}
+      className={['flex size-10 items-center justify-center', className].join(' ')}
+      onClick={handleToggle}
+      {...props}
     >
       {open ? <CloseIcon label="Close menu" /> : <MenuIcon label="Open menu" />}
     </button>
   );
-}
+});
+
+export default ToggleButton;

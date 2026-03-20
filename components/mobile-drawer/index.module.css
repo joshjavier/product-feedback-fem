@@ -1,0 +1,93 @@
+.Portal {
+  --header-offset: var(--header-height);
+
+  /* The portal's first element has an inline style that traps clicks throughout the entire viewport.
+     This rule leaves space for the mobile header to ensure the user can click on the close button. */
+  > :first-child {
+    top: var(--header-offset) !important;
+  }
+}
+
+.Backdrop {
+  --backdrop-opacity: 0.5;
+  position: fixed;
+  min-height: calc(100dvh - var(--header-offset));
+  inset: 0;
+  top: var(--header-offset);
+  background-color: black;
+  opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
+  transition-duration: 450ms;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* iOS 26+: Ensure the backdrop covers the entire visible viewport. */
+  @supports (-webkit-touch-callout: none) {
+    position: absolute;
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+
+  &[data-swiping] {
+    transition-duration: 0ms;
+  }
+
+  &[data-ending-style] {
+    transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+  }
+}
+
+.Viewport {
+  --viewport-padding: 0px;
+  position: fixed;
+  inset: 0;
+  top: var(--header-offset);
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--viewport-padding);
+
+  @supports (-webkit-touch-callout: none) {
+    --viewport-padding: 0.625rem;
+  }
+}
+
+.Popup {
+  --bleed: 3rem;
+  width: calc(271px + var(--bleed));
+  padding: 24px;
+  padding-right: calc(24px + var(--bleed));
+  margin-right: calc(-1 * var(--bleed));
+  background-color: var(--color-secondary-100);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+  transform: translateX(var(--drawer-swipe-movement-x));
+
+  &[data-swiping] {
+    user-select: none;
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateX(calc(100% - var(--bleed) + var(--viewport-padding) + 2px));
+  }
+
+  &[data-ending-style] {
+    transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    --bleed: 0px;
+    margin-right: 0;
+    border-radius: 10px;
+  }
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
