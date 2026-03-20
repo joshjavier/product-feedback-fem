@@ -23,8 +23,15 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
       <div className="mx-auto box-content flex max-w-277.5 flex-col lg:flex-row lg:gap-7.5">
         <HeaderNav />
         <main>
-          <SortPicker />
-          <Link href="/feedback/new">Add Feedback</Link>
+          <div className="bg-secondary-900 text-secondary-200 flex h-14 items-center justify-between px-6">
+            <SortPicker />
+            <Link
+              href="/feedback/new"
+              className="bg-primary-500 text-secondary-200 hover:not-disabled:bg-primary-400 min-h-10 rounded-[10px] px-4 py-2.5 text-[13px] font-bold transition-colors"
+            >
+              <span aria-hidden="true">+ </span>Add Feedback
+            </Link>
+          </div>
           <h1>Suggestions</h1>
           {suggestions.map((suggestion) => (
             <div key={suggestion.id}>
