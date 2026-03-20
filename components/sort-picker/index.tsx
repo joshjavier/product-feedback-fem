@@ -58,12 +58,15 @@ export default function SortPicker() {
   }, []);
 
   if (!shouldRender) {
-    return <div className="text-[13px]">Loading...</div>;
+    return <div className="text-[13px] md:text-[14px]">Loading...</div>;
   }
 
   return (
     <Select.Root items={sortOptions} value={`${sort}:${order}`} onValueChange={handleChange}>
-      <Select.Trigger className={styles.Select} aria-label="Sort product requests">
+      <Select.Trigger
+        className={`${styles.Select} md:text-[14px]`}
+        aria-label="Sort product requests"
+      >
         <span>
           Sort by : <Select.Value className={styles.Value} />
         </span>
