@@ -1,7 +1,20 @@
 'use client';
 
+import { Select } from '@base-ui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import IconArrowDown from '@/assets/shared/icon-arrow-down.svg';
+import IconCheck from '@/assets/shared/icon-check.svg';
+
+import styles from './index.module.css';
+
+const sortOptions = [
+  { label: 'Most Upvotes', value: 'upvotes:desc' },
+  { label: 'Least Upvotes', value: 'upvotes:asc' },
+  { label: 'Most Comments', value: 'comments:desc' },
+  { label: 'Least Comments', value: 'comments:asc' },
+];
 
 export default function SortPicker() {
   const router = useRouter();
@@ -11,8 +24,9 @@ export default function SortPicker() {
   const [order, setOrder] = useState<string>('desc');
   const [shouldRender, setShouldRender] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const [sort, order] = e.target.value.split(':');
+  const handleChange = (value: string | null) => {
+    if (!value) return;
+    const [sort, order] = value.split(':');
     const params = new URLSearchParams(searchParams.toString());
 
     if (sort === 'upvotes') {
@@ -44,15 +58,41 @@ export default function SortPicker() {
   }, []);
 
   if (!shouldRender) {
-    return <div>Loading...</div>;
+    return <div className="text-[13px]">Loading...</div>;
   }
 
   return (
-    <select name="sort" id="sort-select" value={`${sort}:${order}`} onChange={handleChange}>
-      <option value="upvotes:desc">Most Upvotes</option>
-      <option value="upvotes:asc">Least Upvotes</option>
-      <option value="comments:desc">Most Comments</option>
-      <option value="comments:asc">Least Comments</option>
-    </select>
+    <Select.Root items={sortOptions} value={`${sort}:${order}`} onValueChange={handleChange}>
+      <Select.Trigger className={styles.Select} aria-label="Sort product requests">
+        <span>
+          Sort by : <Select.Value className={styles.Value} />
+        </span>
+        <Select.Icon className={styles.SelectIcon}>
+          <IconArrowDown />
+        </Select.Icon>
+      </Select.Trigger>
+
+      <Select.Portal>
+        <Select.Positioner
+          alignItemWithTrigger={false}
+          align="start"
+          alignOffset={2}
+          sideOffset={32}
+        >
+          <Select.Popup className={styles.Popup}>
+            <Select.List>
+              {sortOptions.map(({ label, value }) => (
+                <Select.Item key={label} value={value} className={styles.Item}>
+                  <Select.ItemText>{label}</Select.ItemText>
+                  <Select.ItemIndicator>
+                    <IconCheck />
+                  </Select.ItemIndicator>
+                </Select.Item>
+              ))}
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
   );
 }

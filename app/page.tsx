@@ -27,7 +27,7 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
             <SortPicker />
             <Link
               href="/feedback/new"
-              className="bg-primary-500 text-secondary-200 hover:not-disabled:bg-primary-400 min-h-10 rounded-[10px] px-4 py-2.5 text-[13px] font-bold transition-colors"
+              className="bg-primary-500 text-secondary-200 hover:not-disabled:bg-primary-400 min-h-10 shrink-0 rounded-[10px] px-4 py-2.5 text-[13px] font-bold transition-colors"
             >
               <span aria-hidden="true">+ </span>Add Feedback
             </Link>
