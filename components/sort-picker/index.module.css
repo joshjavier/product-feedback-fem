@@ -36,6 +36,18 @@
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 10px 40px -7px hsl(230 31% 31% / 35.05%);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 150ms,
+    opacity 150ms;
+  overflow-y: auto;
+  max-height: var(--available-height);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.9);
+  }
 }
 
 .Item {
