@@ -6,7 +6,7 @@ import { MouseEvent, useCallback, useEffect, useRef } from 'react';
 import CategoryButton from './category-button';
 
 interface CategoryPickerProps {
-  categories: string[];
+  categories: { value: string; label: string }[];
 }
 
 export default function CategoryPicker({ categories }: CategoryPickerProps) {
@@ -31,9 +31,8 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
   );
 
   const isActive = (category: string) => {
-    const lowercasedCategory = category.toLowerCase();
     const currentCategory = searchParams.get('category') ?? 'all';
-    return currentCategory === lowercasedCategory;
+    return currentCategory === category;
   };
 
   const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
@@ -53,9 +52,17 @@ export default function CategoryPicker({ categories }: CategoryPickerProps) {
     <div className="rounded-[10px] bg-white p-6 pr-4.5 max-lg:min-h-44.5">
       <h2 className="sr-only">Categories</h2>
       <ul className="flex flex-wrap gap-3.5">
-        {categories.map((category) => (
-          <li key={category}>
-            <CategoryButton category={category} active={isActive(category)} onClick={handleClick} />
+        <li>
+          <CategoryButton label="All" value="all" active={isActive('all')} onClick={handleClick} />
+        </li>
+        {categories.map(({ label, value }) => (
+          <li key={label}>
+            <CategoryButton
+              label={label}
+              value={value}
+              active={isActive(value)}
+              onClick={handleClick}
+            />
           </li>
         ))}
       </ul>
