@@ -43,7 +43,7 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
             </div>
           </div>
 
-          <div className="px-6 pt-8 pb-25 md:px-10 md:pt-6 lg:px-0">
+          <div className="px-6 pt-8 max-lg:pb-25 md:px-10 md:pt-6 lg:px-0">
             {suggestions.map((suggestion) => (
               <div key={suggestion.id} className="border border-red-500">
                 <Link href={`/feedback/${suggestion.id}`}>{suggestion.title}</Link>
