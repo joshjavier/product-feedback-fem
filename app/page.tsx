@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
 import IconSuggestions from '@/assets/suggestions/icon-suggestions.svg';
+import FeedbackCard from '@/components/feedback-card';
+import FeedbackCardEmpty from '@/components/feedback-card/empty';
 import HeaderNav from '@/components/header-nav';
 import SortPicker from '@/components/sort-picker';
 import { getSuggestions } from '@/lib/data/suggestions';
@@ -44,15 +46,13 @@ export default async function SuggestionsPage({ searchParams }: PageProps) {
           </div>
 
           <div className="px-6 pt-8 max-lg:pb-25 md:px-10 md:pt-6 lg:px-0">
-            {suggestions.map((suggestion) => (
-              <div key={suggestion.id} className="border border-red-500">
-                <Link href={`/feedback/${suggestion.id}`}>{suggestion.title}</Link>
-                <div>{suggestion.description}</div>
-                <div>{suggestion.category}</div>
-                <div>{suggestion.upvotes}</div>
-                <div>{suggestion.comments}</div>
-              </div>
-            ))}
+            {suggestions.length === 0 ? (
+              <FeedbackCardEmpty />
+            ) : (
+              suggestions.map((suggestion) => (
+                <FeedbackCard key={suggestion.id} feedback={suggestion} />
+              ))
+            )}
           </div>
         </main>
       </div>
