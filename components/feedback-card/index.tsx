@@ -1,9 +1,8 @@
-import Link from 'next/link';
-
 import { ProductRequest } from '@/types';
 
 import CategoryPill from './category-pill';
 import CommentCount from './comment-count';
+import FeedackTitle from './feedback-title';
 import UpvoteButton from './upvote-button';
 
 interface FeedbackCardProps {
@@ -11,23 +10,14 @@ interface FeedbackCardProps {
     comments: number;
     status?: string;
   };
-  titleTag?: 'h1' | 'h3';
+  withLink?: boolean;
 }
 
-export default function FeedbackCard({ feedback, titleTag = 'h3' }: FeedbackCardProps) {
-  const TitleTag = titleTag;
-
+export default function FeedbackCard({ feedback, withLink = true }: FeedbackCardProps) {
   return (
-    <article className="@container rounded-[10px] bg-white p-6 text-[13px]">
-      <div className="@sm:grid @sm:grid-cols-[max-content_1fr_max-content] @sm:grid-rows-[auto_auto_auto] @sm:items-start @sm:justify-items-start">
-        <TitleTag className="mb-2.25 @sm:col-2 @xl:mb-1">
-          <Link
-            href={`/feedback/${feedback.id}`}
-            className="hover:text-secondary-500 text-[13px] font-bold tracking-[-0.18px] @xl:text-[18px] @xl:tracking-[-0.25px]"
-          >
-            {feedback.title}
-          </Link>
-        </TitleTag>
+    <article className="focus-within:ring-secondary-500 @container relative cursor-pointer rounded-[10px] bg-white text-[13px] transition-shadow focus-within:ring-4">
+      <div className="p-6 @sm:grid @sm:grid-cols-[max-content_1fr_max-content] @sm:grid-rows-[auto_auto_auto] @sm:items-start @sm:justify-items-start @xl:px-8 @xl:py-7">
+        <FeedackTitle id={feedback.id} title={feedback.title} withLink={withLink} />
 
         <p className="text-secondary-700 mb-2 @sm:col-2 @xl:mb-3 @xl:text-[16px]">
           {feedback.description}
